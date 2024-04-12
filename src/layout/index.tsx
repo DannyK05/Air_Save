@@ -1,0 +1,19 @@
+export default function Layout ({children}: any){
+    return(
+        <>
+        <header></header>
+        <main>
+        {children}
+        </main>
+        <footer>
+            <nav>
+                <ul>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </nav>
+        </footer>
+        </>
+    )
+}
