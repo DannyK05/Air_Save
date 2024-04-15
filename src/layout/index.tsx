@@ -9,7 +9,7 @@ export default function Layout ({children}: any){
     return(
         <div className={`${darkMode ? "text-white bg-[#11141C]" :""} w-full h-full p-4 `}>
         <header className="flex items-center justify-between">
-            <h1>AirSave</h1>
+            <h1 className="text-lg">AirSave</h1>
             <span onClick={activateDarkMode}>
             {
                 darkMode ? 
@@ -23,9 +23,9 @@ export default function Layout ({children}: any){
         <main className="flex flex-col items-center space-y-6">
             {children}
         </main>
-        <footer>
-            <nav className="flex items-center justify-center">
-                <ul className="flex items-center space-x-6">
+        <footer  className="flex items-center justify-center w-full">
+            <nav className={` ${darkMode ? "shadow-white": ""} absolute bottom-4 rounded-lg shadow p-4 `}>
+                <ul className="flex items-center space-x-10">
                     <li><ion-icon name="home-outline" size="large"></ion-icon></li>
                     <li><ion-icon name="radio-button-on-outline" size="large"></ion-icon></li>
                     <li><ion-icon name="flash-outline" size="large"></ion-icon></li>
