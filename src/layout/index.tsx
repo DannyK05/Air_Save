@@ -1,4 +1,9 @@
 import { useState } from "react"
+import MoonIcon from "../assets/icons/MoonIcon"
+import SunIcon from "../assets/icons/SunIcon"
+import HomeIcon from "../assets/icons/HomeIcon"
+import ButtonIcon from "../assets/icons/ButtonIcon"
+import FlashIcon from "../assets/icons/FlashIcon"
 
 export default function Layout ({children}: any){
     const [darkMode, setDarkMode] = useState(false)
@@ -13,9 +18,9 @@ export default function Layout ({children}: any){
             <span onClick={activateDarkMode}>
             {
                 darkMode ? 
-                <ion-icon name="moon-outline" size="large"></ion-icon>
+                 <MoonIcon/>
                 :
-                <ion-icon name="sunny-outline" size="large"></ion-icon>
+                <SunIcon/>
             }
             </span> 
             
@@ -26,9 +31,9 @@ export default function Layout ({children}: any){
         <footer  className="flex items-center justify-center w-full">
             <nav className={` ${darkMode ? "shadow-white": ""} absolute bottom-4 rounded-lg shadow p-4 `}>
                 <ul className="flex items-center space-x-10">
-                    <li><ion-icon name="home-outline" size="large"></ion-icon></li>
-                    <li><ion-icon name="radio-button-on-outline" size="large"></ion-icon></li>
-                    <li><ion-icon name="flash-outline" size="large"></ion-icon></li>
+                    <li><HomeIcon/></li>
+                    <li><ButtonIcon/></li>
+                    <li><FlashIcon/></li>
                 </ul>
             </nav>
         </footer>

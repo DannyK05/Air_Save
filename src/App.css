@@ -5,6 +5,9 @@
 #root{
   height: 100vh;
 }
+.ionicon{
+  width: 30px;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
