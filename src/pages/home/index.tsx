@@ -184,21 +184,21 @@ export default function Home (){
                 <div className=" w-full flex flex-col items-center p-4">
                     <p>Pollutants</p>
                     <div className="flex items-center flex-wrap">
-                            <div className=" flex items-center justify-center w-1/2 lg:w-1/6 lg:mt-3 p-2 mb-3">
+                            <div className=" flex items-center justify-center w-1/2 lg:w-1/3  p-2 mb-3">
                                <span className="rounded-full p-4 border text-sm">--</span>
                             </div>
 
-                            <div className=" flex items-center justify-center w-1/2 lg:w-1/6 lg:mt-3 p-2 mb-3">
+                            <div className=" flex items-center justify-center w-1/2 lg:w-1/3  p-2 mb-3">
                                <span className="rounded-full p-4 border text-sm">--</span>
                             </div>
 
-                            <div className=" flex items-center justify-center w-1/2 lg:w-1/6 lg:mt-3 p-2 mb-3">
+                            <div className=" flex items-center justify-center w-1/2 lg:w-1/3  p-2 mb-3">
                                <span className="rounded-full p-4 border text-sm">--</span>
                             </div>
                     </div>
                     
                 </div>
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-6 lg:space-x-8">
                     <p className="flex flex-col items-center">
                         <span>Country</span>
                         <span className="uppercase">--</span>
@@ -210,8 +210,8 @@ export default function Home (){
                 </div>
             </div>
             <div>
-                <p>Remark</p>
-                <p>Not available</p>
+                <p className="text-center">Remark</p>
+                <p>Google Air Quailty feature is not available in your region</p>
             </div>
             </>)}
             
