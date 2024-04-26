@@ -5,7 +5,7 @@ import HomeIcon from "../assets/icons/HomeIcon"
 import ButtonIcon from "../assets/icons/ButtonIcon"
 import FlashIcon from "../assets/icons/FlashIcon"
 
-export default function Layout ({children}: any){
+export default function Layout ({action, children}: any){
     const [darkMode, setDarkMode] = useState(false)
 
     const activateDarkMode = () =>{
@@ -32,7 +32,7 @@ export default function Layout ({children}: any){
             <nav className={` ${darkMode ? "shadow-white": ""} absolute bottom-4 rounded-lg shadow p-4 `}>
                 <ul className="flex items-center space-x-10">
                     <li><HomeIcon/></li>
-                    <li><ButtonIcon/></li>
+                    <li onClick={action}><ButtonIcon/></li>
                     <li><FlashIcon/></li>
                 </ul>
             </nav>
