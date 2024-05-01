@@ -1,4 +1,3 @@
-import axios from "axios";
 import Layout from "../../layout";
 import { useState } from "react";
 // const aqiResponse = {
@@ -123,23 +122,28 @@ import { useState } from "react";
 //     }
 // }
 export default function Home (){
+    const [aqiError, setAqiError] = useState("")
     const[aqiData, setAqiData] = useState()
      const getAQIData = async (e:any) =>{
         e.preventDefault()
-        try{
-            const responseData = await axios.get("https://airquality.googleapis.com/v1/currentConditions:lookup?key=AIzaSyBpAAOVkf6JTayYgdEz2scMY1jTfRAnhw0",{params:{ location: {
-                "latitude": 37.419734,
-                "longitude": -122.0827784
-              }
-            }})
-            setAqiData(responseData.data)
-        }
-        catch(error){
-            console.log(error)
-        }
+        await fetch('http://localhost:3000/aqi?latitude=37.7749&longitude=-122.4194')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            else{
+                console.log(response.json())
+                setAqiData(response)
+            }
+        })
+        .then(data => console.log(data))
+        .catch((error) => {
+            setAqiError(error)
+            console.error('Error fetching data:', error)
+
+        });
      }
-    // https://airquality.googleapis.com/v1/currentConditions:lookup?key=YOUR_API_KEY
-    return(
+     return(
         <Layout action = {getAQIData}>
             {aqiData ?
             <>
@@ -209,9 +213,9 @@ export default function Home (){
                     </p>
                 </div>
             </div>
-            <div>
-                <p className="text-center">Remark</p>
-                <p>Google Air Quailty feature is not available in your region</p>
+            <div className="text-center">
+                <p>Remark</p>
+                <p>{aqiError ? "Google Air Quailty feature is not available in your region": "--"}</p>
             </div>
             </>)}
             

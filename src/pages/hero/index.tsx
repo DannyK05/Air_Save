@@ -20,7 +20,7 @@ export default function HeroPage (){
         });
     }, []);
 
-    const addScore = (e) => {
+    const addScore = (e:any) => {
         e.preventDefault()
         if (e.target.checked) {
             let prevScore = 0 
