@@ -126,7 +126,7 @@ export default function Home (){
     const[aqiData, setAqiData] = useState()
      const getAQIData = async (e:any) =>{
         e.preventDefault()
-        await fetch('http://localhost:3000/aqi?latitude=37.7749&longitude=-122.4194')
+        await fetch('http://localhost:3000/aqi?latitude=40.7128&longitude=74.0060')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');

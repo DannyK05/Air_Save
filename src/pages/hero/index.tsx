@@ -1,64 +1,70 @@
 import { useEffect, useState } from "react";
 import Layout from "../../layout";
-const goals = [
-    "Pick up some trash",
-    "Service your exhaust",
-    "Clean the sea",
-    "Buy Light saving bulbs"
-]
-export default function HeroPage (){
-    const[userLocation, setUserLocation] = useState("")
-    const[score, setScore] = useState(0);
+
+export default function HeroPage() {
+    const [userLocation, setUserLocation] = useState("");
+    const [score, setScore] = useState(0);
+    const [goals, setGoals] = useState([
+        "Pick up some trash",
+        "Service your exhaust",
+        "Clean the sea",
+        "Buy Light saving bulbs"
+    ]);
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition((position) => {
             const { latitude, longitude } = position.coords;
             setUserLocation(`Latitude: ${latitude}, Longitude: ${longitude}`);
-            console.log(position);
         }, (error) => {
             console.error("Geolocation Error:", error);
         });
+
+        const prompt = `Give 5 goals someone can do to contribute to reducing pollution without numbering and bulleting on a single line. Return it in a js array alone`
+        const fetchGoals = async () => {
+            try {
+                const response = await fetch(`http://localhost:3000/gemini?prompt=${prompt}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json()
+                console.log(data)
+                data ? setGoals(data) : console.log(data)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchGoals();
     }, []);
 
-    const addScore = (e:any) => {
-        e.preventDefault()
-        if (e.target.checked) {
-            let prevScore = 0 
-            prevScore += parseInt(e.target.value) 
-            setScore(prevScore);
-        } else {
-            let prevScore = 0 
-            prevScore += parseInt(e.target.value) 
-            setScore(prevScore);
-        }
+    const addScore = (e) => {
+        const value = parseInt(e.target.value, 10);
+        setScore(prevScore => e.target.checked ? prevScore + value : prevScore - value);
     };
-    return(
+
+    return (
         <Layout>
             <div>
-               <h1 className="text-xl mt-2">
-                    { userLocation ? 
-                        "Be the hero of " + {userLocation} :
-                        "Be the hero of your Community"
-                    }
+                <h1 className="text-xl mt-2">
+                    {userLocation ? `Be the hero of ${userLocation}` : "Be the hero of your Community"}
                 </h1>
-                <div className="border p-2 rounded-full lg:p-8 ">
+                <div className="border p-2 rounded-full lg:p-8">
                     <h1 className="text-center">{score}</h1>
                 </div>
                 <form className="mt-6">
-                    {
-                        goals.map((goal, id)=>
+                    {goals.map((goal, id) =>
                         <div key={id}>
-                        <label>
-                            <input className="mr-2 w-[20px]" name="goal" onChange={addScore} value={30} type="checkbox"/>
-                            {goal}
-                        </label>
-                        </div>)
-                    }
+                            <label>
+                                <input className="mr-2 w-[20px]" name="goal" onChange={addScore} value={30} type="checkbox" />
+                                {goal}
+                            </label>
+                        </div>
+                    )}
                     <button onClick={addScore} className="rounded-sm">
                         Hang your cape for today
                     </button>
                 </form>
             </div>
         </Layout>
-    )
+    );
 }

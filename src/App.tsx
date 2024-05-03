@@ -3,10 +3,8 @@ import HeroPage from './pages/hero'
 import Home from './pages/home'
 
 function App() {
-
-
   return (
-    <Home/>
+    <HeroPage/>
   )
 }
 
