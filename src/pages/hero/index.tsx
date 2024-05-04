@@ -30,7 +30,7 @@ export default function HeroPage() {
         fetchGoals();
     }, []);
 
-    const addScore = (e) => {
+    const addScore = (e : any) => {
         const value = parseInt(e.target.value, 10);
         setScore(prevScore => e.target.checked ? prevScore + value : prevScore - value);
     };

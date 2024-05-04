@@ -1,21 +1,38 @@
 import Layout from "../../layout";
 import { useEffect, useState } from "react";
 
+interface Location {
+  latitude : number;
+  longitude: number;
+}
+
+interface AQIData {
+  indexes: Array<{
+      aqiDisplay: string;
+      category: string;
+      dominantPollutant: string;
+  }>;
+  pollutants: Array<{
+      displayName: string;
+  }>;
+  regionCode: string;
+  healthRecommendations: {
+      generalPopulation: string;
+  };
+}
+
 export default function Home (){
-    const [aqiError, setAqiError] = useState("")
-    const[aqiData, setAqiData] = useState()
-    const [userLocation, setUserLocation] = useState({});
+    const [aqiError, setAqiError] = useState<string>("")
+    const[aqiData, setAqiData] = useState<AQIData | null>()
+    const [userLocation, setUserLocation] = useState<Location | {}>({});
     const apiKey =import.meta.env.VITE_APP_AQI_API_KEY
 
 
-     const getAQIData = async (e:any) =>{
+     const getAQIData = async (e: React.MouseEvent<HTMLButtonElement>) =>{
         e.preventDefault()
         const url = `https://airquality.googleapis.com/v1/currentConditions:lookup?key=${apiKey}`;
         const data = {
-          location: {
-            latitude: userLocation.latitude,
-            longitude: userLocation.longitude
-          },
+          location: userLocation,
           extraComputations: [
             "HEALTH_RECOMMENDATIONS",
             "DOMINANT_POLLUTANT_CONCENTRATION",
@@ -38,10 +55,10 @@ export default function Home (){
             throw new Error(`HTTP error! status: ${response.status}`);
           }
           console.log(response)
-          const json = await response.json();
+          const json = await response.json() as AQIData;
           console.log(json)
           setAqiData(json);
-        } catch (error) {
+        } catch (error : any) {
           setAqiError(error.message);
           console.error("Error fetching data:", error);
         }
