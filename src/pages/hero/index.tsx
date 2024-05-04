@@ -9,6 +9,11 @@ export default function HeroPage() {
         "Clean the sea",
         "Buy Light saving bulbs"
     ]);
+    const [darkMode, setDarkMode] = useState(false)
+
+    const activateDarkMode = () =>{
+        setDarkMode(!darkMode)
+    }
 
     useEffect(() => {
 
@@ -36,20 +41,22 @@ export default function HeroPage() {
     };
 
     return (
-        <Layout>
-            <div>
-                <h1 className="text-xl mt-2">
+        <Layout darkMode= {darkMode} activateDarkMode ={activateDarkMode}>
+            <div className="flex flex-col items-center space-y-2">
+                <h2 className="text-xl mt-2">
                     Be the hero of your Community
-                </h1>
-                <div className="border p-2 rounded-full lg:p-8">
-                    <h1 className="text-center">{score}</h1>
+                </h2>
+                <div className="border py-6 px-8 w-auto rounded-full lg:p-8">
+                <span className={`text-center ${darkMode ? "text-[#14ADF9]" : "text-[#108CCA]"}`}>{score}</span>
                 </div>
                 <form className="mt-6">
                     {goals.map((goal, id) =>
                         <div key={id}>
                             <label>
-                                <input className="mr-2 w-[20px]" name="goal" onChange={addScore} value={30} type="checkbox" />
-                                {goal}
+                                <div className="flex items-center space-x-2">
+                                    <input className="mr-2 w-[20px]" name="goal" onChange={addScore} value={30} type="checkbox" />
+                                    <p>{goal}</p>
+                                </div>
                             </label>
                         </div>
                     )}

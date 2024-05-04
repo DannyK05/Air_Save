@@ -27,12 +27,21 @@ export default function Home (){
     const [userLocation, setUserLocation] = useState<Location | {}>({});
     const apiKey =import.meta.env.VITE_APP_AQI_API_KEY
 
+    const [darkMode, setDarkMode] = useState(false)
+
+    const activateDarkMode = () =>{
+        setDarkMode(!darkMode)
+    }
+
 
      const getAQIData = async (e: React.MouseEvent<HTMLButtonElement>) =>{
         e.preventDefault()
         const url = `https://airquality.googleapis.com/v1/currentConditions:lookup?key=${apiKey}`;
         const data = {
-          location: userLocation,
+          location: {
+            "latitude": 37.419734,
+            "longitude": -122.0827784
+          },
           extraComputations: [
             "HEALTH_RECOMMENDATIONS",
             "DOMINANT_POLLUTANT_CONCENTRATION",
@@ -84,39 +93,39 @@ export default function Home (){
         console.log(userLocation)
       }, []);
      return(
-        <Layout action = {getAQIData}>
+        <Layout action = {getAQIData} darkMode= {darkMode} activateDarkMode ={activateDarkMode}>
             {aqiData ?
             <>
             <div className="border p-6 w-auto rounded-full lg:p-8 ">
-                <h1 className="">{aqiData.indexes[0].aqiDisplay}</h1>
+                <span className={`${darkMode ? "text-[#14ADF9]" : "text-[#108CCA]"}`}>{aqiData.indexes[0].aqiDisplay}</span>
             </div>
             <p className={`text-lg`}>{aqiData.indexes[0].category}</p>
             <div className="rounded-lg flex flex-col items-center space-x-3 hover:shadow">
                 <div className=" w-full flex flex-col items-center p-4">
-                    <p>Pollutants</p>
+                    <h2>Pollutants</h2>
                     <div className="flex items-center flex-wrap">
                         {
                             aqiData.pollutants.map((pollutant, id) =>
                             <div key={id} className=" flex items-center justify-center w-1/2 lg:w-1/6 lg:mt-3 p-2 mb-3">
-                               <span className="rounded-full p-4 border text-sm"> {pollutant.displayName}</span>
+                               <span className={`rounded-full p-4 border text-sm ${darkMode ? "text-[#14ADF9]" : "text-[#108CCA]"}`}> {pollutant.displayName}</span>
                             </div>)
                         }
                     </div>
                     
                 </div>
                 <div className="flex items-center space-x-4">
-                    <p className="flex flex-col items-center">
-                        <span>Country</span>
+                    <div className="flex flex-col items-center">
+                        <h2>Country</h2>
                         <span className="uppercase">{aqiData.regionCode}</span>
-                    </p>
+                    </div>
                     <p className="flex flex-col items-center">
-                        <span>Dominant Pollutant</span>
+                        <h2>Dominant Pollutant</h2>
                         <span className="uppercase">{aqiData.indexes[0].dominantPollutant}</span>
                     </p>
                 </div>
             </div>
-            <div>
-                <p>Remark</p>
+            <div className="text-center">
+                <h2>Remark</h2>
                 <p>{aqiData.healthRecommendations.generalPopulation}</p> 
             </div></>
              :(<>
@@ -126,7 +135,7 @@ export default function Home (){
             <p className={`text-lg`}>--</p>
             <div className="rounded-lg flex flex-col items-center space-x-3 p-3 hover:shadow">
                 <div className=" w-full flex flex-col items-center p-4">
-                    <p>Pollutants</p>
+                    <h2>Pollutants</h2>
                     <div className="flex items-center flex-wrap">
                             <div className=" flex items-center justify-center w-1/2 lg:w-1/3  p-2 mb-3">
                                <span className="rounded-full p-4 border text-sm">--</span>
@@ -144,17 +153,17 @@ export default function Home (){
                 </div>
                 <div className="flex items-center space-x-6 lg:space-x-8">
                     <p className="flex flex-col items-center">
-                        <span>Country</span>
+                        <h2>Country</h2>
                         <span className="uppercase">--</span>
                     </p>
                     <p className="flex flex-col items-center">
-                        <span>Dominant Pollutant</span>
+                        <h2>Dominant Pollutant</h2>
                         <span className="uppercase">--</span>
                     </p>
                 </div>
             </div>
             <div className="text-center">
-                <p>Remark</p>
+                <h2>Remark</h2>
                 <p>{aqiError ? "Google Air Quailty feature is not available in your region": "--"}</p>
             </div>
             </>)}
