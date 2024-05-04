@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Layout from "../../layout";
 
 export default function HeroPage() {
-    const [userLocation, setUserLocation] = useState("");
     const [score, setScore] = useState(0);
     const [goals, setGoals] = useState([
         "Pick up some trash",
@@ -12,17 +11,11 @@ export default function HeroPage() {
     ]);
 
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition((position) => {
-            const { latitude, longitude } = position.coords;
-            setUserLocation(`Latitude: ${latitude}, Longitude: ${longitude}`);
-        }, (error) => {
-            console.error("Geolocation Error:", error);
-        });
 
         const prompt = `Give 5 goals someone can do to contribute to reducing pollution without numbering and bulleting on a single line. Return it in a js array alone`
         const fetchGoals = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/gemini?prompt=${prompt}`);
+                const response = await fetch(`https://air-save-proxy-server.onrender.com/gemini?prompt=${prompt}`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -46,7 +39,7 @@ export default function HeroPage() {
         <Layout>
             <div>
                 <h1 className="text-xl mt-2">
-                    {userLocation ? `Be the hero of ${userLocation}` : "Be the hero of your Community"}
+                    Be the hero of your Community
                 </h1>
                 <div className="border p-2 rounded-full lg:p-8">
                     <h1 className="text-center">{score}</h1>
